@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: no
+  tasks:
+    
+    - name:  maillog errors fix-transport file mapping
+      lineinfile:
+        dest: /etc/postfix/main.cf
+        line: transport_maps = hash:/etc/postfix/transport
+        state: present
+    
+    - name:  hostname correction in postfix
+      lineinfile:
+        dest: /etc/postfix/main.cf
+        regexp: 'myhostname ='
+        line: "myhostname = {{ inventory_hostname }}"
+        state: present
+    
+    - name:  oracle mails discard
+      lineinfile:
+        dest: /etc/postfix/transport
+        regexp: '@oracle'
+        line: "oracle@{{ inventory_hostname }} discard:"
+        state: present
+      notify: restart service
+
+    - name: postmap command
+      shell: /usr/sbin/postmap /etc/postfix/transport
+    
+  handlers:   
+    - name:   restart service
+      service:
+        name: postfix
+        state: restarted
+        enabled: true

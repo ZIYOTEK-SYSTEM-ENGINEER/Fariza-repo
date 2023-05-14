@@ -1,0 +1,7 @@
+---
+- name: use motd role
+  hosts: db
+  user: ansible
+  become: true
+  roles: 
+  - motd

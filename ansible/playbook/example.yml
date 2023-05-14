@@ -1,0 +1,16 @@
+---
+- name: Copy example.txt file to remote servers
+  hosts: db
+  become: true
+
+  tasks:
+    - name: Copy example.txt
+      copy: 
+        src: example.txt
+        dest: /tmp
+
+  tasks:
+    - name: Modify example.txt file
+      lineinfile:
+        path: /tmp/example.txt
+        line: This is task2 
