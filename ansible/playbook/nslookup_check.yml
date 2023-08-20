@@ -1,0 +1,14 @@
+---
+- name: Perform nslookup check
+  hosts: dns
+  gather_facts: true
+
+  tasks:
+    - name: Run nslookup command
+      command: dns2 ntp2
+      register: nslookup_output
+
+    - name: Display nslookup results
+      debug:
+        var: nslookup_output.stdout_lines
+

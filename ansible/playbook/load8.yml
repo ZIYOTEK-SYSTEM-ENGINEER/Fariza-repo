@@ -1,0 +1,29 @@
+- name: Install httpd
+  hosts: 192.168.130.26
+  become: true
+  tasks:
+    - name: Install required packages
+      package:
+        name: httpd
+        state: present
+    - name: Create index.html 
+      blockinfile:
+        path: /var/www/html/index.html
+        block: 
+
+        create: true
+    
+    - name: Start HTTPD service and enable it on boot
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+
+ 
+
+  handlers:
+    - name: Start HTTPD service
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes      
