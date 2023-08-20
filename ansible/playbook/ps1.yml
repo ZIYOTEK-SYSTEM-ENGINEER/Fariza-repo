@@ -1,6 +1,6 @@
 ---
 - name: Set PS1 environment variable
-  hosts: oracle
+  hosts: all
   become: yes
   vars:
     ps1: '\n\[\e[32m\][\u@\[\e[1;34m\]\h \w]\[\e[m\]\\$ '
@@ -8,4 +8,4 @@
     - name: Update .bashrc file
       lineinfile:
         path: ~/.bashrc
-        line: 'export PS1="{{ ps1 }}"' 
+        line: 'export PS1="{{ ps1 }}"'
